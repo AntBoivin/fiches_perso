@@ -1,7 +1,7 @@
 <?php
 
 $postData=$_POST;
-print_r($postData);
+// print_r($postData);
 if (!empty($_GET)){
 $id=$_GET["id"];
 }
@@ -172,7 +172,7 @@ $tableau_type_DV = [
     ]
 ];
 
-$alignement=array("Loyal Bon", "Loyal Neutre", "Loyal Mauvais", "Neutre Bon", "Neutre", "Neutre Mauvais", "Chaotique Bon", "Chaotique Neutre", "Chaotique Mauvais");
+$Alignement=array("Loyal Bon", "Loyal Neutre", "Loyal Mauvais", "Neutre Bon", "Neutre", "Neutre Mauvais", "Chaotique Bon", "Chaotique Neutre", "Chaotique Mauvais");
 $BonusCA=["Infime"=>8, "Minuscule"=>4,"Très Petit"=>2,"Petit"=>1,"Moyen"=>0,"Grand"=>1,"Très Grand"=>2, "Gigantesque"=>4,"Colossal"=>8]
 ?>
 
@@ -196,99 +196,132 @@ try
 {
 	$mysqlClient = new PDO('mysql:host=127.0.0.1;port=3306;dbname=fiche','root', '');
 	
+	$carac_liste=array("Nom", "FP", "Rang_Mythique", "Type", "Taille","DV", "Force", "Dexterite", "Constitution", "Intelligence", "Sagesse", "Charisme", "Bonus_Initiative","Bonus_Reflexe", "Bonus_Vigueur", "Bonus_Volonte", "Armure","Contact", "Esquive", "Description_bonus_armure", "Alignement", "Dons", "Langues","Particularites", "Environnement", "Organisation_sociale", "Tresor","Pouvoirs_speciaux", "Resume");
+	$comp_liste=array("acrobaties", "art_de_la_magie", "artisanat_type_I", "artisanat_I", "artisanat_type_II", "artisanat_II","bluff","conn_donj", "conn_folk", "conn_geo", "conn_hist", "conn_ing", "conn_myst", "conn_nat", "conn_nob", "conn_plans","conn_rel","deguisement","diplomatie","discretion","dressage","equitation","escalade","escamotage","estimation","evasion","intimidation","linguistique","natation","perception","premiers_secours","profession_type_I","profession_I","profession_type_II","profession_II","psychologie","representation_type_I","representation_I", "representation_type_II","representation_II","representation_type_III","representation_III","representation_type_IV","representation_IV","sabotage","survie","utilisation_d_objets_magiques","vol");
+	
+	// ******************* Génération
 	if (empty($_GET)){
-	$sqlQueryCarac = 'INSERT INTO `carac` (`id`, `Nom`, `FP`, `Rang_Mythique`, `Type`, `Taille`,`DV`, `Force`, `Dexterite`, `Constitution`, `Intelligence`, `Sagesse`, `Charisme`, `Armure`, `Alignement`,`Particularites`,`Resume`)  
-	VALUES (NULL, :Nom, :FP, :Rang_Mythique, :Type, :Taille, :DV, :Force, :Dexterite, :Constitution, :Intelligence, :Sagesse, :Charisme, :Armure, :Alignement, :Particularites, :Resume)';
-	$sqlQueryComp = 'INSERT INTO `competences` (`id`, `acrobaties`, `art_de_la_magie`, `artisanat_type_I`, `artisanat_I`, `artisanat_type_II`, `artisanat_II`,`bluff`,`conn_donj`, `conn_folk`, `conn_geo`, `conn_hist`, `conn_ing`, `conn_myst`, `conn_nat`, `conn_nob`, `conn_plans`,`conn_rel`,`deguisement`,`diplomatie`,`discretion`,`dressage`,`equitation`,`escalade`,`escamotage`,`estimation`,`evasion`,`intimidation`,`linguistique`,`natation`,`perception`,`premiers_secours`,`profession_type_I`,`profession_I`,`profession_type_II`,`profession_II`,`psychologie`,`representation_type_I`,`representation_I`, `representation_type_II`,`representation_II`,`representation_type_III`,`representation_III`,`representation_type_IV`,`representation_IV`,`sabotage`,`survie`,`utilisation_d_objets_magiques`,`vol`)  
-	VALUES (NULL, :acrobaties, :art_de_la_magie, :artisanat_type_I, :artisanat_I, :artisanat_type_II, :artisanat_II, :bluff ,:conn_donj, :conn_folk, :conn_geo, :conn_hist, :conn_ing, :conn_myst, :conn_nat, :conn_nob, :conn_plans, :conn_rel, :deguisement, :diplomatie , :discretion , :dressage ,:equitation, :escalade, :escamotage, :estimation,:evasion, :intimidation, :linguistique, :natation, :perception, :premiers_secours, :profession_type_I, :profession_I, :profession_type_II, :profession_II, :psychologie, :representation_type_I, :representation_I, :representation_type_II, :representation_II, :representation_type_III, :representation_III, :representation_type_IV, :representation_IV, :sabotage, :survie, :utilisation_d_objets_magiques, :vol)';
+	//1
+	$sqlQueryCarac="INSERT INTO `carac` (`id`";
+	foreach ($carac_liste as $caract){
+		$sqlQueryCarac=$sqlQueryCarac.", `".$caract."`";
+	}
+	$sqlQueryCarac=$sqlQueryCarac.') VALUES (:id';
+	foreach ($carac_liste as $caract){
+		$sqlQueryCarac=$sqlQueryCarac.", :".$caract;
+	}
+	$sqlQueryCarac=$sqlQueryCarac.')';
+	
+	//2
+	$sqlQueryComp="INSERT INTO `competences` (`id`";
+	foreach ($comp_liste as $comp){
+		$sqlQueryComp=$sqlQueryComp.", `".$comp."`";
+	}
+	$sqlQueryComp=$sqlQueryComp.') VALUES (:id';
+	foreach ($comp_liste as $comp){
+		$sqlQueryComp=$sqlQueryComp.", :".$comp;
+	}
+	$sqlQueryComp=$sqlQueryComp.')';
+	
+	//echo $sqlQueryComp."<br>";
+	}
+	else 
+	{
+	//3 
+	
+	$sqlQueryCarac="UPDATE `carac` SET  ";
+	foreach ($carac_liste as $caract){
+		if ($caract==end($carac_liste)){
+		$sqlQueryCarac=$sqlQueryCarac."`".$caract."` = :".$caract." WHERE `carac`.`id` = :id";	
+		}
+		else {
+		$sqlQueryCarac=$sqlQueryCarac."`".$caract."` = :".$caract.", ";
+		}
+	}
+	
+	//echo $sqlQueryCarac."<br>";
+	
+	//4
+	
+	$sqlQueryComp="UPDATE `competences` SET  ";
+	foreach ($comp_liste as $comp){
+		if ($comp==end($comp_liste)){
+		$sqlQueryComp=$sqlQueryComp."`".$comp."` = :".$comp." WHERE `competences`.`id` = :id";	
+		}
+		else {
+		$sqlQueryComp=$sqlQueryComp."`".$comp."` = :".$comp.", ";
+		}
+	}
+	
+	// echo $sqlQueryComp_test."<br>";
+	}
+	
+	
+	//***********************************************************************************
+	
+	/* if (empty($_GET)){
+	$sqlQueryCarac = 'INSERT INTO `carac` (`id`, `Nom`, `FP`, `Rang_Mythique`, `Type`, `Taille`, `DV`, `Force`, `Dexterite`, `Constitution`, `Intelligence`, `Sagesse`, `Charisme`, `Bonus_Reflexe`, `Bonus_Vigueur`, `Bonus_Volonte`, `Armure`, `Contact`, `Esquive`, `Description_bonus_armure`, `Alignement`, `Particularites`, `Environnement`, `Organisation_sociale`, `Tresor`, `Pouvoirs_speciaux`, `Resume`) VALUES (:id, :Nom, :FP, :Rang_Mythique, :Type, :Taille, :DV, :Force, :Dexterite, :Constitution, :Intelligence, :Sagesse, :Charisme, :Bonus_Reflexe, :Bonus_Vigueur, :Bonus_Volonte, :Armure, :Contact, :Esquive, :Description_bonus_armure, :Alignement,  :Particularites, :Environnement, :Organisation_sociale, :Tresor, :Pouvoirs_speciaux, :Resume)';
+	$sqlQueryComp = 'INSERT INTO `competences` (`id`, `acrobaties`, `art_de_la_magie`, `artisanat_type_I`, `artisanat_I`, `artisanat_type_II`, `artisanat_II`, `bluff`, `conn_donj`, `conn_folk`, `conn_geo`, `conn_hist`, `conn_ing`, `conn_myst`, `conn_nat`, `conn_nob`, `conn_plans`, `conn_rel`, `deguisement`, `diplomatie`, `discretion`, `dressage`, `equitation`, `escalade`, `escamotage`, `estimation`, `evasion`, `intimidation`, `linguistique`, `natation`, `perception`, `premiers_secours`, `profession_type_I`, `profession_I`, `profession_type_II`, `profession_II`, `psychologie`, `representation_type_I`, `representation_I`, `representation_type_II`, `representation_II`, `representation_type_III`, `representation_III`, `representation_type_IV`, `representation_IV`, `sabotage`, `survie`, `utilisation_d_objets_magiques`, `vol`)  
+	VALUES (:id, :acrobaties, :art_de_la_magie, :artisanat_type_I, :artisanat_I, :artisanat_type_II, :artisanat_II, :bluff, :conn_donj, :conn_folk, :conn_geo, :conn_hist, :conn_ing, :conn_myst, :conn_nat, :conn_nob, :conn_plans, :conn_rel, :deguisement, :diplomatie, :discretion, :dressage, :equitation, :escalade, :escamotage, :estimation, :evasion, :intimidation, :linguistique, :natation, :perception, :premiers_secours, :profession_type_I, :profession_I, :profession_type_II, :profession_II, :psychologie, :representation_type_I, :representation_I, :representation_type_II, :representation_II, :representation_type_III, :representation_III, :representation_type_IV, :representation_IV, :sabotage, :survie, :utilisation_d_objets_magiques, :vol)';
 	}
 	else
 	{
-	$sqlQueryCarac = 'UPDATE `carac` SET  `Nom` = :Nom, `FP` = :FP, `Rang_Mythique` = :Rang_Mythique, `Type` = :Type, `Taille` = :Taille,`DV`= :DV,`Force` = :Force, `Dexterite` = :Dexterite, `Constitution` = :Constitution,`Intelligence` = :Intelligence, `Sagesse` = :Sagesse, `Charisme` = :Charisme, `Armure` = :Armure, `Alignement` = :Alignement, `Particularites` = :Particularites, `Resume` = :Resume WHERE `carac`.`id` = :id';
-	$sqlQueryComp = 'UPDATE `competences` SET `acrobaties`= :acrobaties, `art_de_la_magie`= :art_de_la_magie, `artisanat_type_I` = :artisanat_type_I, `artisanat_I`= :artisanat_I, `artisanat_type_II`= :artisanat_type_II, `artisanat_II`= :artisanat_II,`bluff`= :bluff,`conn_donj`= :conn_donj, `conn_folk`= :conn_folk, `conn_geo`= :conn_geo, `conn_hist` = :conn_hist, `conn_ing`= :conn_ing, `conn_myst`= :conn_myst, `conn_nat`= :conn_nat, `conn_nob`= :conn_nob, `conn_plans`= :conn_plans,`conn_rel`= :conn_rel,`deguisement`= :deguisement,`diplomatie`= :diplomatie,`discretion`= :discretion,`dressage`= :dressage,`equitation`= :equitation,`escalade`= :escalade,`escamotage`= :escamotage,`estimation`= :estimation,`evasion`= :evasion,`intimidation`= :intimidation,`linguistique`= :linguistique,`natation`= :natation,`perception`= :perception,`premiers_secours`= :premiers_secours,`profession_type_I`= :profession_type_I,`profession_I`= :profession_I,`profession_type_II`= :profession_type_II,`profession_II`= :profession_II,`psychologie`= :psychologie,`representation_type_I`= :representation_type_I,`representation_I`= :representation_I, `representation_type_II`= :representation_type_II,`representation_II`= :representation_II,`representation_type_III`= :representation_type_III,`representation_III`= :representation_III,`representation_type_IV`= :representation_type_IV,`representation_IV`= :representation_IV,`sabotage`= :sabotage,`survie`= :survie,`utilisation_d_objets_magiques`= :utilisation_d_objets_magiques,`vol`= :vol WHERE `competences`.`id` = :id';
+	$sqlQueryCarac = 'UPDATE `carac` SET  `Nom` = :Nom, `FP` = :FP, `Rang_Mythique` = :Rang_Mythique, `Type` = :Type, `Taille` = :Taille, `DV` = :DV, `Force` = :Force, `Dexterite` = :Dexterite, `Constitution` = :Constitution, `Intelligence` = :Intelligence, `Sagesse` = :Sagesse, `Charisme` = :Charisme, `Bonus_Reflexe` = :Bonus_Reflexe, `Bonus_Vigueur` = :Bonus_Vigueur, `Bonus_Volonte` = :Bonus_Volonte, `Armure` = :Armure, `Contact` = :Contact, `Esquive` = :Esquive, `Description_bonus_armure` = :Description_bonus_armure, `Alignement` = :Alignement, `Particularites` = :Particularites, `Environnement` = :Environnement, `Organisation_sociale` = :Organisation_sociale, `Tresor` = :Tresor, `Pouvoirs_speciaux` = :Pouvoirs_speciaux, `Resume` = :Resume WHERE `carac`.`id` = :id';
+	$sqlQueryComp = 'UPDATE `competences` SET `acrobaties` = :acrobaties, `art_de_la_magie` = :art_de_la_magie, `artisanat_type_I` = :artisanat_type_I, `artisanat_I` = :artisanat_I, `artisanat_type_II` = :artisanat_type_II, `artisanat_II` = :artisanat_II, `bluff` = :bluff, `conn_donj` = :conn_donj, `conn_folk` = :conn_folk, `conn_geo` = :conn_geo, `conn_hist` = :conn_hist, `conn_ing` = :conn_ing, `conn_myst` = :conn_myst, `conn_nat` = :conn_nat, `conn_nob` = :conn_nob, `conn_plans` = :conn_plans, `conn_rel` = :conn_rel, `deguisement` = :deguisement, `diplomatie` = :diplomatie, `discretion` = :discretion, `dressage` = :dressage, `equitation` = :equitation, `escalade` = :escalade, `escamotage` = :escamotage, `estimation` = :estimation, `evasion` = :evasion, `intimidation` = :intimidation, `linguistique` = :linguistique, `natation` = :natation, `perception` = :perception, `premiers_secours` = :premiers_secours, `profession_type_I` = :profession_type_I, `profession_I` = :profession_I, `profession_type_II` = :profession_type_II, `profession_II` = :profession_II, `psychologie` = :psychologie, `representation_type_I` = :representation_type_I, `representation_I` = :representation_I, `representation_type_II` = :representation_type_II, `representation_II` = :representation_II, `representation_type_III` = :representation_type_III, `representation_III` = :representation_III, `representation_type_IV` = :representation_type_IV, `representation_IV` = :representation_IV, `sabotage` = :sabotage, `survie` = :survie, `utilisation_d_objets_magiques` = :utilisation_d_objets_magiques, `vol` = :vol WHERE `competences`.`id` = :id';
 	}
+	echo $sqlQueryComp; */
+	
+	//*********************************************************************************
+	
+	
+	
+	
 	
 	$insertCarac = $mysqlClient->prepare($sqlQueryCarac);
 	$insertComp = $mysqlClient->prepare($sqlQueryComp);
+	
+	
+	
+	
 
+	
+	//******************************* Remplir les trous
 	if (empty($postData["DV"])){
-	$DV=$tableau_type_DV[strval($postData["facteur_de_puissance"])][$Type[$postData["type"]]];
+	$DV=$tableau_type_DV[strval($postData["FP"])][$Type[$postData["Type"]]];
 	}
 	else{
 	$DV=$postData["DV"];
 	}
 
-	$insertCarac->execute([
-    'Nom' => $postData["nom"],
-    'FP' => $postData["facteur_de_puissance"],
-    'Rang_Mythique' => $postData["rang_mythique"],
-    'Type' => $postData["type"],
-	'Taille' => $postData["taille"],
-	'DV' => $DV,
- 	'Force' => $postData["force"],
-	'Dexterite' => $postData["dexterite"],
-	'Constitution' => $postData["constitution"],
-	'Intelligence' => $postData["intelligence"],
-	'Sagesse' => $postData["sagesse"],
-	'Charisme' => $postData["charisme"],
-	'Armure' => $postData["Armure"],
-	'Alignement' => $postData["alignement"], 
-	'Particularites' => $postData["particularites"],
-	'Resume' => $postData["resume"],
-	'id' => $id,
-	]);
-	echo "42";
-	$insertComp->execute([
-    'acrobaties'=> $postData["acrobaties"], 
-	'art_de_la_magie'=> $postData["art_de_la_magie"], 
-	'artisanat_type_I'=> $postData["artisanat_type_I"], 
-	'artisanat_I'=> $postData["artisanat_I"], 
-	'artisanat_type_II'=> $postData["artisanat_type_II"],
-	'artisanat_II'=> $postData["artisanat_II"],
-	'bluff'=> $postData["bluff"],
-	'conn_donj'=> $postData["conn_donj"],
-	'conn_folk'=> $postData["conn_folk"], 
-	'conn_geo'=> $postData["conn_geo"],
-	'conn_hist'=> $postData["conn_hist"],
-	'conn_ing'=> $postData["conn_ing"], 
-	'conn_myst'=> $postData["conn_myst"],
-	'conn_nat'=> $postData["conn_nat"],
-	'conn_nob'=> $postData["conn_nob"],
-	'conn_plans'=> $postData["conn_plans"],
-	'conn_rel'=> $postData["conn_rel"],
-	'deguisement'=> $postData["deguisement"],
-	'diplomatie'=> $postData["diplomatie"],
-	'discretion'=> $postData["discretion"],
-	'dressage'=> $postData["dressage"],
-	'equitation'=> $postData["equitation"],
-	'escalade'=> $postData["escalade"],
-	'escamotage'=> $postData["escamotage"],
-	'estimation'=> $postData["estimation"],
-	'evasion'=> $postData["evasion"],
-	'intimidation'=> $postData["intimidation"],
-	'linguistique'=> $postData["linguistique"],
-	'natation'=> $postData["natation"],
-	'perception'=> $postData["perception"],
-	'premiers_secours'=> $postData["premiers_secours"],
-	'profession_type_I'=> $postData["profession_type_I"],
-	'profession_I'=> $postData["profession_I"],
-	'profession_type_II'=> $postData["profession_type_II"],
-	'profession_II'=> $postData["profession_II"],
-	'psychologie'=> $postData["psychologie"],
-	'representation_type_I'=> $postData["representation_type_I"],
-	'representation_I'=> $postData["representation_I"],
-	'representation_type_II'=> $postData["representation_type_II"],
-	'representation_II'=> $postData["representation_II"],
-	'representation_type_III'=> $postData["representation_type_III"],
-	'representation_III'=> $postData["representation_III"],
-	'representation_type_IV'=> $postData["representation_type_IV"],
-	'representation_IV'=> $postData["representation_IV"],
-	'sabotage'=> $postData["sabotage"],
-	'survie'=> $postData["survie"],
-	'utilisation_d_objets_magiques'=> $postData["utilisation_d_objets_magiques"],
-	'vol' => $postData["vol"],
-	'id'=>$id,
-	]);
+
+	//*****************************************
+	
+	
+	//********************************************************** Génération des valeurs
+	
+	 foreach ($carac_liste as $carac)
+ {
+	 if ($carac != 'DV'){
+      $CaracValue[$carac] = $postData[$carac];
+ }
+ }
+	$CaracValue["DV"] =$DV;
+	$CaracValue["id"]= $id;
+	
+	
+	 foreach ($comp_liste as $comp)
+ {
+      $CompValue[$comp] = $postData[$comp];
+ }
+	$CompValue["id"]= $id;
+	
+	
+	//*****************************************************
+	
+	$insertCarac->execute($CaracValue);
+
+	//echo "42";
+	$insertComp->execute($CompValue);
 }
 catch (Exception $e)
 {
@@ -298,29 +331,46 @@ catch (Exception $e)
 	
 	
 	<p>
-		Nom : <?php echo $postData["nom"] ?><br>
-		Alignement : <?php echo $alignement[$postData["alignement"]]  ?><br>
-		FP : <?php echo $postData["facteur_de_puissance"] ?><br>
-		Rang Mythique : <?php echo $postData["rang_mythique"] ?><br>
-		Type : <?php echo $Type[$postData["type"]] ?><br>
-		Taille : <?php echo $postData["taille"] ?><br> 
+		Nom : <?php echo $postData["Nom"] ?><br>
+		Alignement : <?php echo $Alignement[$postData["Alignement"]]  ?><br>
+		FP : <?php echo $postData["FP"] ?><br>
+		Rang Mythique : <?php echo $postData["Rang_Mythique"] ?><br>
+		Type : <?php echo $Type[$postData["Type"]] ?><br>
+		Taille : <?php echo $postData["Taille"] ?><br> 
 		<?php
-		$nombreDV=$tableau_type_DV[strval($postData["facteur_de_puissance"])][$Type[$postData["type"]]]
+		$nombreDV=$tableau_type_DV[strval($postData["FP"])][$Type[$postData["Type"]]]
 		?>
 		DV : <?php echo $nombreDV ?><br>
-		PV : <?php echo floor($nombreDV*($tableau_type_DV["DV"][$Type[$postData["type"]]]+1)/2)+$postData["rang_mythique"]*$tableau_type_DV["DV"][$Type[$postData["type"]]]+(floor($postData["constitution"]/2)-5)*$nombreDV ?><br>
-		BBA : <?php echo floor($nombreDV*$tableau_type_DV["BBA"][$Type[$postData["type"]]]) ?> <br>
+		PV : <?php echo floor($nombreDV*($tableau_type_DV["DV"][$Type[$postData["Type"]]]+1)/2)+$postData["Rang_Mythique"]*$tableau_type_DV["DV"][$Type[$postData["Type"]]]+(floor($postData["Constitution"]/2)-5)*$nombreDV ?><br>
+		BBA : <?php echo floor($nombreDV*$tableau_type_DV["BBA"][$Type[$postData["Type"]]]) ?> <br>
 		
-		Force : <?php echo $postData["force"] .' ('. floor($postData["force"]/2)-5 .')' ?><br> 
-		Dextérité : <?php echo $postData["dexterite"] .' ('. floor($postData["dexterite"]/2)-5 .')' ?><br> 
-		Constitution : <?php echo $postData["constitution"] .' ('. floor($postData["constitution"]/2)-5 .')' ?><br> 
-		Intelligence : <?php echo $postData["intelligence"] .' ('. floor($postData["intelligence"]/2)-5 .')' ?><br> 
-		Sagesse : <?php echo $postData["sagesse"] .' ('. floor($postData["sagesse"]/2)-5 .')' ?><br> 
-		Charisme : <?php echo $postData["charisme"] .' ('. floor($postData["charisme"]/2)-5 .')' ?><br> 
+		Force : <?php echo $postData["Force"] .' ('. floor($postData["Force"]/2)-5 .')' ?><br> 
+		Dextérité : <?php echo $postData["Dexterite"] .' ('. floor($postData["Dexterite"]/2)-5 .')' ?><br> 
+		Constitution : <?php echo $postData["Constitution"] .' ('. floor($postData["Constitution"]/2)-5 .')' ?><br> 
+		Intelligence : <?php echo $postData["Intelligence"] .' ('. floor($postData["Intelligence"]/2)-5 .')' ?><br> 
+		Sagesse : <?php echo $postData["Sagesse"] .' ('. floor($postData["Sagesse"]/2)-5 .')' ?><br> 
+		Charisme : <?php echo $postData["Charisme"] .' ('. floor($postData["Charisme"]/2)-5 .')' ?><br> 
+		
+		<?php $CA=10+$postData["Armure"] ?> 
+		 <?php echo "CA ", $CA,", contact ", $CA-$postData["Contact"], ', pris au dépourvu ', $CA-$postData["Esquive"]-max(floor($postData["Dexterite"]/2)-5,0),' (',$postData["Description_bonus_armure"],')<br>'  ?>
+		 
+		<?php echo "Init : ", $postData["Bonus_Initiative"]+floor($postData["Dexterite"]/2)-5,"<br>"?>
 
-		CA : <?php echo 10+$postData["Armure"]+$BonusCA[$postData["taille"]] ?><br>
-		Particularités : <?php echo $postData["particularites"] ?><br>
-		Résumé : <?php echo $postData["resume"] ?><br>
+		<?php echo "Ref : ", $postData["Bonus_Reflexe"]+floor($postData["Dexterite"]/2)-5,"<br>"?>
+		<?php echo "Vig : ", $postData["Bonus_Vigueur"]+floor($postData["Constitution"]/2)-5,"<br>"?>
+		<?php echo "Vol : ", $postData["Bonus_Volonte"]+floor($postData["Sagesse"]/2)-5,"<br>"?>
+
+		Dons : <?php echo $postData["Dons"] ?><br>
+		Langues : <?php echo $postData["Langues"] ?><br>
+		Particularités : <?php echo $postData["Particularites"] ?><br>
+		Environnement  : <?php echo $postData["Environnement"] ?><br>
+		Organisation sociale : <?php echo $postData["Organisation_sociale"] ?><br>
+		Trésor : <?php echo $postData["Tresor"] ?><br>
+		
+		
+		
+		Pouvoir spéciaux : <?php echo $postData["Pouvoirs_speciaux"] ?><br>
+		Résumé : <?php echo $postData["Resume"] ?><br>
 		<!-- <label for="Armure">Armure : <input type="number" name="Armure" id="Armure"><br> -->
 		<p id="comp">
 <?php echo 'Acrobaties :', $postData["acrobaties"],'<br>'?>
@@ -360,7 +410,6 @@ catch (Exception $e)
 <?php echo 'Représentation (',$postData["representation_type_II"],') : ', $postData["representation_II"],'<br>'?>
 <?php echo 'Représentation (',$postData["representation_type_III"],') : ', $postData["representation_III"],'<br>'?>
 <?php echo 'Représentation (',$postData["representation_type_IV"],') : ', $postData["representation_IV"],'<br>'?>
-
 <?php echo 'Sabotage : ',$postData["sabotage"],'<br>'?>
 <?php echo 'Survie : ',$postData["survie"],'<br>'?>
 <?php echo 'Utilisation d\'objets magiques : ',$postData["utilisation_d_objets_magiques"],'<br>'?>
