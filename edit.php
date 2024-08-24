@@ -14,19 +14,20 @@ try {
 }
 // Si tout va bien, on peut continuer
 
-// On récupère tout le contenu de la table recipes
+// On récupère tout le contenu de la table carac
 $sqlQuery = 'SELECT * FROM carac';
 $fichesStatement = $mysqlClient->prepare($sqlQuery);
 $fichesStatement->execute();
 $fiches = $fichesStatement->fetchAll();
 $fiche_actuelle=$fiches[$id];
+//print_r($fiche_actuelle);
 
-$sqlQuery = 'SELECT * FROM competences';
-$fichescompStatement = $mysqlClient->prepare($sqlQuery);
+$sqlQuerycomp = 'SELECT * FROM competences';
+$fichescompStatement = $mysqlClient->prepare($sqlQuerycomp);
 $fichescompStatement->execute();
 $fichescomp = $fichescompStatement->fetchAll();
 $fiche_actuelle_comp=$fichescomp[$id];
-// print_r($fiche_actuelle_comp);
+//print_r($fiche_actuelle_comp);
 
 
 
@@ -53,9 +54,9 @@ $fiche_actuelle_comp=$fichescomp[$id];
 	
 <?php echo '<form action="fiche_pf.php?id=',$id,'" method="post">' ?>
 	<p>
-		<?php echo '<label for="Nom">Nom : <input type="texte" name="nom" id="Nom" value=',$fiche_actuelle["Nom"],'><br> '?>
-		<label for="alignement">Alignement : </label>
-        <select name="alignement" id="alignement">
+		<?php echo '<label for="Nom">Nom : <input type="texte" name="Nom" id="Nom" value=',$fiche_actuelle["Nom"],'><br> '?>
+		<label for="Alignement">Alignement : </label>
+        <select name="Alignement" id="Alignement">
             <?php echo ($fiche_actuelle["Alignement"]===0 ? '<option value="0" selected>Loyal Bon</option>' : '<option value="0">Loyal Bon</option>'); 
 			 echo $fiche_actuelle["Alignement"]===1 ? '<option value="1" selected>Loyal Neutre</option>' : '<option value="1">Loyal Neutre</option>'; 
 			 echo $fiche_actuelle["Alignement"]===2 ? '<option value="2" selected>Loyal Mauvais</option>' : '<option value="2">Loyal Mauvais</option>'; 
@@ -67,10 +68,10 @@ $fiche_actuelle_comp=$fichescomp[$id];
 			 echo $fiche_actuelle["Alignement"]===8 ? '<option value="8" selected>Chaotique Mauvais</option>' : '<option value="8">Chaotique Mauvais</option>'; ?>
         </select>
 		<br>
-		<?php echo '<label for="FP">FP : <input type="number" name="facteur_de_puissance" id="FP" value=',$fiche_actuelle["FP"],'><br> '?>
-		<?php echo '<label for="rMy">Rang Mythique : <input type="number" name="rang_mythique" id="rMy" value=',$fiche_actuelle["Rang_Mythique"],'><br> '?>
+		<?php echo '<label for="FP">FP : <input type="number" name="FP" id="FP" value=',$fiche_actuelle["FP"],'><br> '?>
+		<?php echo '<label for="Rang_Mythique">Rang Mythique : <input type="number" name="Rang_Mythique" id="Rang_Mythique" value=',$fiche_actuelle["Rang_Mythique"],'><br> '?>
         <label for="type">Type : </label>
-        <select name="type" id="type">
+        <select name="Type" id="type">
             <?php echo ($fiche_actuelle["Type"]===1 ? '<option value="1" selected>Aberration</option>' : '<option value="1">Aberration</option>' ) ;
 			 echo ($fiche_actuelle["Type"]===2 ? '<option value="2" selected>Animal</option>' : '<option value="2">Animal</option>' ) ;
 			 echo ($fiche_actuelle["Type"]===3 ? '<option value="3" selected>Créature artificielle</option>' : '<option value="3">Créature artificielle</option>' ) ;
@@ -86,8 +87,8 @@ $fiche_actuelle_comp=$fichescomp[$id];
 			 echo ($fiche_actuelle["Type"]===13 ? '<option value="13" selected>Vermine</option>' : '<option value="13">Vermine</option>' ) ;?>
         </select>
 		<br>
-		<label for="taille">Taille : </label>
-        <select name="taille" id="taille">
+		<label for="Taille">Taille : </label>
+        <select name="Taille" id="Taille">
 			<?php echo ($fiche_actuelle["Taille"]==="Infime" ? '<option value="Infime" selected>Infime</option>' : '<option value="Infime">Infime</option>' ) ;
 			 echo ($fiche_actuelle["Taille"]==="Minuscule" ? '<option value="Minuscule" selected>Minuscule</option>' : '<option value="Minuscule">Minuscule</option>' ) ;
 			 echo ($fiche_actuelle["Taille"]==="Très Petit" ? '<option value="Très Petit" selected>Très Petit</option>' : '<option value="Très Petit">Très Petit</option>' ) ;
@@ -101,17 +102,31 @@ $fiche_actuelle_comp=$fichescomp[$id];
 		<br>
 		<!--<label for="DV">DV : <input type="number" name="dés de vie" id="DV"><br>-->
 		
-		<?php echo '<label for="For">Force : <input type="number" name="force" id="For" value=',$fiche_actuelle["Force"],'><br> '?>
-		<?php echo '<label for="Dex">Dextérité : <input type="number" name="dexterite" id="Dex" value=',$fiche_actuelle["Dexterite"],'><br> '?>
-		<?php echo '<label for="Cons">Constitution : <input type="number" name="constitution" id="Cons" value=',$fiche_actuelle["Constitution"],'><br> '?>
+		<?php echo '<label for="For">Force : <input type="number" name="Force" id="For" value=',$fiche_actuelle["Force"],'><br> '?>
+		<?php echo '<label for="Dex">Dextérité : <input type="number" name="Dexterite" id="Dex" value=',$fiche_actuelle["Dexterite"],'><br> '?>
+		<?php echo '<label for="Cons">Constitution : <input type="number" name="Constitution" id="Cons" value=',$fiche_actuelle["Constitution"],'><br> '?>
 		
-		<?php echo '<label for="Int">Intelligence : <input type="number" name="intelligence" id="Int" value=',$fiche_actuelle["Intelligence"],'><br> '?>
-		<?php echo '<label for="Sag">Sagesse : <input type="number" name="sagesse" id="Sag" value=',$fiche_actuelle["Sagesse"],'><br> '?>
-		<?php echo '<label for="Cha">Charisme : <input type="number" name="charisme" id="Cha" value=',$fiche_actuelle["Charisme"],'><br> '?>
+		<?php echo '<label for="Int">Intelligence : <input type="number" name="Intelligence" id="Int" value=',$fiche_actuelle["Intelligence"],'><br> '?>
+		<?php echo '<label for="Sag">Sagesse : <input type="number" name="Sagesse" id="Sag" value=',$fiche_actuelle["Sagesse"],'><br> '?>
+		<?php echo '<label for="Cha">Charisme : <input type="number" name="Charisme" id="Cha" value=',$fiche_actuelle["Charisme"],'><br> '?>
 		<?php echo '<label for="Armure">Armure : <input type="number" name="Armure" id="Armure", value=',$fiche_actuelle["Armure"],'><br> '?>
+		<?php echo '<label for="Contact">dont Armure+Bouclier+Armure naturelle  : <input type="number" name="Contact" id="Contact" value=',$fiche_actuelle["Contact"],'><br>'   ?>
+		<?php echo '<label for="Esquive">dont Esquive  : <input type="number" name="Esquive" id="Esquive" value=',$fiche_actuelle["Esquive"],'><br>' ?>
+		<?php echo '<label for="Description_bonus_armure">Description bonus armure : <input type="text" name="Description_bonus_armure" id="Description_bonus_armure" value=',$fiche_actuelle["Description_bonus_armure"],'><br>' ?>
 		
-		<?php echo '<label for="particularites">Particularités : <input type="text" name="particularites" id="particularites" value=',$fiche_actuelle["Particularites"],'><br> '?>
-		<?php echo '<label for="resume">Résumé : <input type="text" name="resume" id="resume", value=',$fiche_actuelle["Resume"],'><br> '?>
+		<?php echo '<label for="Bonus_Initiative">Bonus Initiative  : <input type="number" name="Bonus_Initiative" id="Bonus_Initiative" value=',$fiche_actuelle["Bonus_Initiative"],'><br>' ?>
+		<?php echo '<label for="Bonus_Reflexe">Bonus Réflexe : <input type="number" name="Bonus_Reflexe" id="Bonus_Reflexe" value=',$fiche_actuelle["Bonus_Reflexe"],'><br>' ?>
+		<?php echo '<label for="Bonus_Vigueur">Bonus Vigueur : <input type="number" name="Bonus_Vigueur" id="Bonus_Vigueur" value=',$fiche_actuelle["Bonus_Vigueur"],'><br>' ?>
+		<?php echo '<label for="Bonus_Volonte">Bonus Volonte : <input type="number" name="Bonus_Volonte" id="Bonus_Volonte" value=',$fiche_actuelle["Bonus_Volonte"],'><br>' ?>
+
+		<?php echo '<label for="Dons">Dons : <input type="text" name="Dons" id="Dons" value=',$fiche_actuelle["Dons"],'><br> '?>
+		<?php echo '<label for="Langues">Langues : <input type="text" name="Langues" id="Langues" value=',$fiche_actuelle["Langues"],'><br> '?>
+		<?php echo '<label for="Particularites">Particularités : <input type="text" name="Particularites" id="Particularites" value=',$fiche_actuelle["Particularites"],'><br> '?>
+		<?php echo '<label for="Environnement">Environnement : <input type="text" name="Environnement" id="Environnement" value=',$fiche_actuelle["Environnement"],'><br> '?>
+		<?php echo '<label for="Organisation_sociale">Organisation sociale : <input type="text" name="Organisation_sociale" id="Organisation_sociale" value=',$fiche_actuelle["Organisation_sociale"],'><br> '?>
+		<?php echo '<label for="Tresor">Trésor : <input type="text" name="Tresor" id="Tresor" value=',$fiche_actuelle["Tresor"],'><br> '?>
+		<?php echo '<label for="Pouvoirs_speciaux">Pouvoir spéciaux : <input type="text" name="Pouvoirs_speciaux" id="Pouvoirs_speciaux" value=',$fiche_actuelle["Pouvoirs_speciaux"],'><br> '?>
+		<?php echo '<label for="Resume">Résumé : <input type="text" name="Resume" id="Resume", value=',$fiche_actuelle["Resume"],'><br> '?>
 		
 		<p id="comp">
 <?php echo '<label for="Acro">Acrobaties : <input type="number" name="acrobaties" id="Acro" value=',$fiche_actuelle_comp["acrobaties"],'></label><br>'?>
