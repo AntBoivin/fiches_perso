@@ -10,9 +10,9 @@
 	<a href="fiche.php"> Tableau</a>
 <form action="fiche_pf.php" method="post">
 	<p>
-		<label for="Nom">Nom : <input type="texte" name="nom" id="Nom"><br>
-		<label for="alignement">Alignement : </label>
-        <select name="alignement" id="alignement">
+		<label for="Nom">Nom : <input type="texte" name="Nom" id="Nom"><br>
+		<label for="Alignement">Alignement : </label>
+        <select name="Alignement" id="Alignement">
             <option value="0">Loyal Bon</option>
             <option value="1">Loyal Neutre</option>
             <option value="2">Loyal Mauvais</option>
@@ -24,10 +24,10 @@
 			<option value="8">Chaotique Mauvais</option>
         </select>
 		<br>
-		<label for="FP">FP : <input type="number" name="facteur_de_puissance" id="FP"><br>
-		<label for="rMy">Rang Mythique : <input type="number" name="rang_mythique" id="rMy"><br>
+		<label for="FP">FP : <input type="number" name="FP" id="FP"><br>
+		<label for="rMy">Rang Mythique : <input type="number" name="Rang_Mythique" id="rMy"><br>
         <label for="type">Type : </label>
-        <select name="type" id="type">
+        <select name="Type" id="type">
             <option value="1">Aberration</option>
             <option value="2">Animal</option>
             <option value="3">Créature artificielle</option>
@@ -43,8 +43,8 @@
 			<option value="13">Vermine</option>
         </select>
 		<br>
-		<label for="taille">Taille : </label>
-        <select name="taille" id="taille">
+		<label for="Taille">Taille : </label>
+        <select name="Taille" id="Taille">
             <option value="Infime">Infime</option>
             <option value="Minuscule">Minuscule</option>
             <option value="Très Petit">Très Petit</option>
@@ -59,21 +59,56 @@
 		<!--<label for="DV">DV : <input type="number" name="dés de vie" id="DV"><br>-->
 	<p>
 	</p>
-		<label for="For">Force : <input type="number" name="force" id="For" value=10><br>
-		<label for="Dex">Dextérité : <input type="number" name="dexterite" id="Dex" value=10><br>
-		<label for="Cons">Constitution : <input type="number" name="constitution" id="Cons" value=10><br>
-		<label for="Int">Intelligence : <input type="number" name="intelligence" id="Int" value=10><br>
-		<label for="Sag">Sagesse : <input type="number" name="sagesse" id="Sag" value=10><br>
-		<label for="Cha">Charisme : <input type="number" name="charisme" id="Cha" value=10><br>
+		<label for="For">Force : <input type="number" name="Force" id="For" value=10><br>
+		<label for="Dex">Dextérité : <input type="number" name="Dexterite" id="Dex" value=10><br>
+		<label for="Cons">Constitution : <input type="number" name="Constitution" id="Cons" value=10><br>
+		<label for="Int">Intelligence : <input type="number" name="Intelligence" id="Int" value=10><br>
+		<label for="Sag">Sagesse : <input type="number" name="Sagesse" id="Sag" value=10><br>
+		<label for="Cha">Charisme : <input type="number" name="Charisme" id="Cha" value=10><br>
 	<p>
 	</p>	
-		<label for="Armure">Armure : <input type="number" name="Armure" id="Armure"><br>
-		<label for="Particularites">Particularités : <br><!--<input type="texte" name="particularites" id="Particularites"><br>-->
-		<textarea id="Particularites" name="particularites" rows="5" cols="33">
+		<label for="Armure">Total bonus armure  : <input type="number" name="Armure" id="Armure" value=0><br>
+		<label for="Contact">dont Armure+Bouclier+Armure naturelle  : <input type="number" name="Contact" id="Contact" value=0><br>
+		<label for="Esquive">dont Esquive  : <input type="number" name="Esquive" id="Esquive" value=0><br>
+		<label for="Description_bonus_armure">Description bonus armure : <input type="text" name="Description_bonus_armure" id="Description_bonus_armure"><br>
+		
+		<label for="Bonus_Reflexe">Bonus Initiative  : <input type="number" name="Bonus_Initiative" id="Bonus_Initiative" value=0><br>
+		
+		<label for="Bonus_Reflexe">Bonus Réflexes  : <input type="number" name="Bonus_Reflexe" id="Bonus_Reflexe" value=0><br>
+		<label for="Bonus_Vigueur">Bonus Vigueur  : <input type="number" name="Bonus_Vigueur" id="Bonus_Vigueur" value=0><br>
+		<label for="Bonus_Volonte">Bonus Volonté  : <input type="number" name="Bonus_Volonte" id="Bonus_Volonte" value=0><br>
+		
+		
+		<label for="Dons">Dons : <br>
+		<textarea id="Dons" name="Dons" rows="5" cols="33">
 		</textarea><br>
-		<label for="Resume">Résumé : <br><!--<input type="texte" name="resume" id="Resume"><br>-->
-		<textarea id="Resume" name="resume" rows="5" cols="33">
+		
+		
+		<label for="Langues">Langues : <br>
+		<textarea id="Langues" name="Langues" rows="1" cols="33">
+		</textarea><br>
+		
+		
+		<label for="Particularites">Particularités : <br><!--<input type="texte" name="Particularites" id="Particularites"><br>-->
+		<textarea id="Particularites" name="Particularites" rows="2" cols="33">
+		</textarea><br>
+		<label for="Environnement">Environnement : <br>
+		<textarea id="Environnement" name="Environnement" rows="1" cols="33">
+		</textarea><br>
+		<label for="Organisation_sociale">Organisation sociale : <br>
+		<textarea id="Organisation_sociale" name="Organisation_sociale" rows="5" cols="33">
+		</textarea><br>
+		<label for="Tresor">Trésor : <br><!--<input type="texte" name="Resume" id="Resume"><br>-->
+		<textarea id="Tresor" name="Tresor" rows="5" cols="33">
 		</textarea>
+		<label for="Pouvoirs_speciaux">Pouvoirs spéciaux : <br>
+		<textarea id="Pouvoirs_speciaux" name="Pouvoirs_speciaux" rows="5" cols="33">
+		</textarea><br>
+		<label for="Resume">Résumé : <br><!--<input type="texte" name="Resume" id="Resume"><br>-->
+		<textarea id="Resume" name="Resume" rows="5" cols="33">
+		</textarea>
+		
+		
     </p>
 	<p id="comp">
 <label for="Acro">Acrobaties : <input type="number" name="acrobaties" id="Acro" value=0></label><br>
