@@ -58,6 +58,12 @@
 		<br>
 		<!--<label for="DV">DV : <input type="number" name="dés de vie" id="DV"><br>-->
 	<p>
+	<label for="Sens">Sens : <br>
+		<textarea id="Sens" name="Sens" rows="1" cols="33">
+		</textarea><br>
+	<label for="Aura">Aura : <br>
+		<textarea id="Aura" name="Aura" rows="1" cols="33">
+		</textarea><br>
 	</p>
 		<label for="For">Force : <input type="number" name="Force" id="For" value=10><br>
 		<label for="Dex">Dextérité : <input type="number" name="Dexterite" id="Dex" value=10><br>
@@ -65,6 +71,7 @@
 		<label for="Int">Intelligence : <input type="number" name="Intelligence" id="Int" value=10><br>
 		<label for="Sag">Sagesse : <input type="number" name="Sagesse" id="Sag" value=10><br>
 		<label for="Cha">Charisme : <input type="number" name="Charisme" id="Cha" value=10><br>
+		<label for="BBA">BBA : <input type="number" name="BBA" id="BBA" value=0><br>
 	<p>
 	</p>	
 		<label for="Armure">Total bonus armure  : <input type="number" name="Armure" id="Armure" value=0><br>
@@ -77,6 +84,50 @@
 		<label for="Bonus_Reflexe">Bonus Réflexes  : <input type="number" name="Bonus_Reflexe" id="Bonus_Reflexe" value=0><br>
 		<label for="Bonus_Vigueur">Bonus Vigueur  : <input type="number" name="Bonus_Vigueur" id="Bonus_Vigueur" value=0><br>
 		<label for="Bonus_Volonte">Bonus Volonté  : <input type="number" name="Bonus_Volonte" id="Bonus_Volonte" value=0><br>
+		
+		<label for="RD valeur">RD valeur  : <input type="number" name="RD valeur" id="RD valeur" value=0><br>
+		<label for="RD">RD  : <input type="text" name="RD" id="RD"><br>
+		<label for="Immunite">Immunité : <input type="text" name="Immunite" id="Immunite"><br>
+		<label for="Resistance">Résistance  : <input type="text" name="Resistance" id="Resistance"><br>
+		<label for="RM">RM  : <input type="number" name="RM" id="RM" value=0><br>
+		
+		
+		
+		
+		<label for="VD">VD  : <input type="number" name="VD" id="VD" value=0><br>
+		<label for="distance_vol">Vol  : <input type="number" name="distance_vol" id="distance_vol" value=0><br>
+		<label for="qualite_vol">Qualité de vol  : <input type="text" name="qualite_vol" id="qualite_vol"><br>
+		<label for="cac">Corps-à-corps  : <input type="text" name="cac" id="cac"><br>
+		<label for="Espace">Espace  : <input type="number" name="Espace" id="Espace" value=0><br>
+		<label for="Allonge">Allonge  : <input type="number" name="Allonge" id="Allonge" value=0><br>
+		<label for="Attaques_spe">Attaques spéciales  : <input type="text" name="Attaques_spe" id="Attaques_spe"><br>
+		
+		
+		<label for="Concentration_pv">Concentration : <input type="number" name="Concentration_pv" id="Concentration_pv" value=0><br>
+		<label for="NLS">NLS : <input type="number" name="NLS" id="NLS" value=0><br>
+		<label for="Constant">Constant : <input type="texte" name="Constant" id="Constant"><br> 
+		<label for="A_volonte">A volonté : <input type="texte" name="A_volonte" id="A_volonte"><br> 
+		<label for="3_jour">3/jour : <input type="texte" name="3_jour" id="3_jour"><br> 
+		<label for="1_jour">1/jour : <input type="texte" name="1_jour" id="1_jour"><br>
+		<label for="1_mois">1/mois : <input type="texte" name="1_mois" id="1_mois"><br> 
+		<label for="1_an">1/an : <input type="texte" name="1_an" id="1_an"><br> 
+		
+		
+		<label for="Classe">Classe: <input type="texte" name="Classe" id="Classe"><br> 
+		<label for="Concentration">Concentration : <input type="number" name="Concentration" id="Concentration" value=0><br> 
+		<label for="NLS_sorts">NLS : <input type="number" name="NLS_sorts" id="NLS_sorts" value=0><br>
+		
+		<label for="Niveau_0">Niveau 0 : <input type="texte" name="Niveau_0" id="Niveau_0"><br>
+		<label for="Niveau_1">Niveau 1 : <input type="texte" name="Niveau_1" id="Niveau_1"><br> 
+		<label for="Niveau_2">Niveau 2 : <input type="texte" name="Niveau_2" id="Niveau_2"><br> 
+		<label for="Niveau 3">Niveau 3 : <input type="texte" name="Niveau_3" id="Niveau_3"><br>
+		<label for="Niveau_4">Niveau 4 : <input type="texte" name="Niveau_4" id="Niveau_4"><br>
+		<label for="Niveau_5">Niveau 5 : <input type="texte" name="Niveau_5" id="Niveau_5"><br>
+		<label for="Niveau_6">Niveau 6 : <input type="texte" name="Niveau_6" id="Niveau_6"><br> 
+		<label for="Niveau_7">Niveau 7 : <input type="texte" name="Niveau_7" id="Niveau_7"><br>
+		<label for="Niveau_8">Niveau 8 : <input type="texte" name="Niveau_8" id="Niveau_8"><br>
+		<label for="Niveau_9">Niveau 9 : <input type="texte" name="Niveau_9" id="Niveau_9"><br> 
+		
 		
 		
 		<label for="Dons">Dons : <br>
@@ -100,7 +151,7 @@
 		</textarea><br>
 		<label for="Tresor">Trésor : <br><!--<input type="texte" name="Resume" id="Resume"><br>-->
 		<textarea id="Tresor" name="Tresor" rows="5" cols="33">
-		</textarea>
+		</textarea><br>
 		<label for="Pouvoirs_speciaux">Pouvoirs spéciaux : <br>
 		<textarea id="Pouvoirs_speciaux" name="Pouvoirs_speciaux" rows="5" cols="33">
 		</textarea><br>
