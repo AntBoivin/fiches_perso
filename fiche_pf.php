@@ -1,7 +1,7 @@
 <?php
 
 $postData=$_POST;
-// print_r($postData);
+//print_r($postData);
 if (!empty($_GET)){
 $id=$_GET["id"];
 }
@@ -196,12 +196,15 @@ try
 {
 	$mysqlClient = new PDO('mysql:host=127.0.0.1;port=3306;dbname=fiche','root', '');
 	
-	$carac_liste=array("Nom", "FP", "Rang_Mythique", "Type", "Taille","DV", "Force", "Dexterite", "Constitution", "Intelligence", "Sagesse", "Charisme", "Bonus_Initiative","Bonus_Reflexe", "Bonus_Vigueur", "Bonus_Volonte", "Armure","Contact", "Esquive", "Description_bonus_armure", "Alignement", "Dons", "Langues","Particularites", "Environnement", "Organisation_sociale", "Tresor","Pouvoirs_speciaux", "Resume");
+	$carac_liste=array("Nom", "FP", "Rang_Mythique", "Type", "Taille","DV","Sens", "Aura", "VD", "distance_vol", "qualite_vol", "cac", "RD_valeur","RD","Immunite", "Resistance", "RM","Espace","Allonge","Attaques_spe", "Force", "Dexterite", "Constitution", "Intelligence", "Sagesse", "Charisme", "BBA", "Bonus_Initiative","Bonus_Reflexe", "Bonus_Vigueur", "Bonus_Volonte", "Armure","Contact", "Esquive", "Description_bonus_armure", "Alignement", "Dons", "Langues","Particularites", "Environnement", "Organisation_sociale", "Tresor","Pouvoirs_speciaux", "Resume");
 	$comp_liste=array("acrobaties", "art_de_la_magie", "artisanat_type_I", "artisanat_I", "artisanat_type_II", "artisanat_II","bluff","conn_donj", "conn_folk", "conn_geo", "conn_hist", "conn_ing", "conn_myst", "conn_nat", "conn_nob", "conn_plans","conn_rel","deguisement","diplomatie","discretion","dressage","equitation","escalade","escamotage","estimation","evasion","intimidation","linguistique","natation","perception","premiers_secours","profession_type_I","profession_I","profession_type_II","profession_II","psychologie","representation_type_I","representation_I", "representation_type_II","representation_II","representation_type_III","representation_III","representation_type_IV","representation_IV","sabotage","survie","utilisation_d_objets_magiques","vol");
+	$pouv_liste=array("NLS","Concentration_pv", "Constant", "A_volonte", "3_jour", "1_jour","1_mois", "1_an");
+	$sorts_liste=array("Classe", "NLS_sorts", "Concentration", "Niveau_0","Niveau_1","Niveau_2","Niveau_3","Niveau_4","Niveau_5","Niveau_6","Niveau_7","Niveau_8","Niveau_9");
+	
 	
 	// ******************* Génération
 	if (empty($_GET)){
-	//1
+	//carac 1
 	$sqlQueryCarac="INSERT INTO `carac` (`id`";
 	foreach ($carac_liste as $caract){
 		$sqlQueryCarac=$sqlQueryCarac.", `".$caract."`";
@@ -212,7 +215,7 @@ try
 	}
 	$sqlQueryCarac=$sqlQueryCarac.')';
 	
-	//2
+	//comp1
 	$sqlQueryComp="INSERT INTO `competences` (`id`";
 	foreach ($comp_liste as $comp){
 		$sqlQueryComp=$sqlQueryComp.", `".$comp."`";
@@ -224,11 +227,36 @@ try
 	$sqlQueryComp=$sqlQueryComp.')';
 	
 	//echo $sqlQueryComp."<br>";
+	
+	// pouv 1
+	
+	$sqlQueryPouv="INSERT INTO `pouvoirs magiques` (`id`";
+	foreach ($pouv_liste as $pouv){
+		$sqlQueryPouv=$sqlQueryPouv.", `".$pouv."`";
+	}
+	$sqlQueryPouv=$sqlQueryPouv.') VALUES (:id';
+	foreach ($pouv_liste as $pouv){
+		$sqlQueryPouv=$sqlQueryPouv.", :".$pouv;
+	}
+	$sqlQueryPouv=$sqlQueryPouv.')';
+	
+	// sorts 1
+	
+	$sqlQuerySorts="INSERT INTO `sorts` (`id`";
+	foreach ($sorts_liste as $sorts){
+		$sqlQuerySorts=$sqlQuerySorts.", `".$sorts."`";
+	}
+	$sqlQuerySorts=$sqlQuerySorts.') VALUES (:id';
+	foreach ($sorts_liste as $sorts){
+		$sqlQuerySorts=$sqlQuerySorts.", :".$sorts;
+	}
+	$sqlQuerySorts=$sqlQuerySorts.')';
+	
+	
 	}
 	else 
 	{
-	//3 
-	
+	//carac 2
 	$sqlQueryCarac="UPDATE `carac` SET  ";
 	foreach ($carac_liste as $caract){
 		if ($caract==end($carac_liste)){
@@ -241,7 +269,7 @@ try
 	
 	//echo $sqlQueryCarac."<br>";
 	
-	//4
+	//comp 2
 	
 	$sqlQueryComp="UPDATE `competences` SET  ";
 	foreach ($comp_liste as $comp){
@@ -254,8 +282,35 @@ try
 	}
 	
 	// echo $sqlQueryComp_test."<br>";
+	
+	// pouv 2
+	
+	$sqlQueryPouv="UPDATE `pouvoirs magiques` SET  ";
+	foreach ($pouv_liste as $pouv){
+		if ($pouv==end($pouv_liste)){
+		$sqlQueryPouv=$sqlQueryPouv."`".$pouv."` = :".$pouv." WHERE `pouvoirs magiques`.`id` = :id";	
+		}
+		else {
+		$sqlQueryPouv=$sqlQueryPouv."`".$pouv."` = :".$pouv.", ";
+		}
 	}
 	
+	// pouv 2
+	
+	$sqlQuerySorts="UPDATE `sorts` SET  ";
+	foreach ($sorts_liste as $sorts){
+		if ($sorts==end($sorts_liste)){
+		$sqlQuerySorts=$sqlQuerySorts."`".$sorts."` = :".$sorts." WHERE `sorts`.`id` = :id";	
+		}
+		else {
+		$sqlQuerySorts=$sqlQuerySorts."`".$sorts."` = :".$sorts.", ";
+		}
+	}
+	
+	
+	
+	}
+
 	
 	//***********************************************************************************
 	
@@ -279,8 +334,8 @@ try
 	
 	$insertCarac = $mysqlClient->prepare($sqlQueryCarac);
 	$insertComp = $mysqlClient->prepare($sqlQueryComp);
-	
-	
+	$insertPouv = $mysqlClient->prepare($sqlQueryPouv);
+	$insertSorts = $mysqlClient->prepare($sqlQuerySorts);
 	
 	
 
@@ -315,6 +370,22 @@ try
  }
 	$CompValue["id"]= $id;
 	
+	 foreach ($pouv_liste as $pouv)
+ {
+      $PouvValue[$pouv] = $postData[$pouv];
+ }
+	$PouvValue["id"]= $id;	
+
+	 foreach ($sorts_liste as $sorts)
+ {
+      $SortsValue[$sorts] = $postData[$sorts];
+ }
+	$SortsValue["id"]= $id;		
+	
+	
+	
+	//print_r($CaracValue);
+	
 	
 	//*****************************************************
 	
@@ -322,6 +393,8 @@ try
 
 	//echo "42";
 	$insertComp->execute($CompValue);
+	$insertPouv->execute($PouvValue);
+	$insertSorts->execute($SortsValue);
 }
 catch (Exception $e)
 {
@@ -336,6 +409,10 @@ catch (Exception $e)
 		FP : <?php echo $postData["FP"] ?><br>
 		Rang Mythique : <?php echo $postData["Rang_Mythique"] ?><br>
 		Type : <?php echo $Type[$postData["Type"]] ?><br>
+		Sens : <?php echo $postData["Sens"] ?><br>
+		Aura : <?php echo $postData["Aura"] ?><br>
+		
+		
 		Taille : <?php echo $postData["Taille"] ?><br> 
 		<?php
 		$nombreDV=$tableau_type_DV[strval($postData["FP"])][$Type[$postData["Type"]]]
@@ -344,12 +421,45 @@ catch (Exception $e)
 		PV : <?php echo floor($nombreDV*($tableau_type_DV["DV"][$Type[$postData["Type"]]]+1)/2)+$postData["Rang_Mythique"]*$tableau_type_DV["DV"][$Type[$postData["Type"]]]+(floor($postData["Constitution"]/2)-5)*$nombreDV ?><br>
 		BBA : <?php echo floor($nombreDV*$tableau_type_DV["BBA"][$Type[$postData["Type"]]]) ?> <br>
 		
+		VD : <?php echo 1.5*$postData["VD"],"m (",$postData["VD"],' c) ; Vol ',1.5*$postData["distance_vol"],"m (",$postData["distance_vol"],' c)(',$postData["qualite_vol"],') <br>' ?>
+		Corps-à-corps : <?php echo $postData["cac"],'<br>' ?>
+		
+		Espace occupé : <?php echo 1.5*$postData["Espace"],"m (",$postData["Espace"],' c) ;' ?>
+		Allonge : <?php echo 1.5*$postData["Allonge"],"m (",$postData["Allonge"],' c) <br>' ?>
+		Attaques spéciales : <?php echo $postData["Attaques_spe"], '<br>'?>
+		
+		
+		Pouvoirs magiques (NLS <?php echo $postData["NLS"] ?>, Concentration <?php echo $postData["Concentration_pv"] ?>) : <br>
+		Constant : <?php echo $postData["Constant"]  ?> <br>
+		A volonté : <?php echo $postData["A_volonte"]  ?> <br>
+		3/jour : <?php echo $postData["3_jour"]  ?><br>
+		1/jour : <?php echo $postData["1_jour"]  ?><br>
+		1/mois : <?php echo $postData["1_mois"]  ?><br>
+		1/an : <?php echo $postData["1_an"]  ?><br>
+		
+		Sorts de <?php echo $postData["Classe"] ?> (NLS <?php echo $postData["NLS_sorts"] ?>, Concentration <?php echo $postData["Concentration"] ?>) : <br>
+		Niveau 0 : <?php echo $postData["Niveau_0"]  ?> <br>
+		Niveau 1 : <?php echo $postData["Niveau_1"]  ?> <br>
+		Niveau 2 : <?php echo $postData["Niveau_2"]  ?> <br>
+		Niveau 3 : <?php echo $postData["Niveau_3"]  ?> <br>
+		Niveau 4 : <?php echo $postData["Niveau_4"]  ?> <br>
+		Niveau 5 : <?php echo $postData["Niveau_5"]  ?> <br>
+		Niveau 6 : <?php echo $postData["Niveau_6"]  ?> <br>
+		Niveau 7 : <?php echo $postData["Niveau_7"]  ?> <br>
+		Niveau 8 : <?php echo $postData["Niveau_8"]  ?> <br>
+		Niveau 9 : <?php echo $postData["Niveau_9"]  ?> <br>
+		
+		
+		
+		
 		Force : <?php echo $postData["Force"] .' ('. floor($postData["Force"]/2)-5 .')' ?><br> 
 		Dextérité : <?php echo $postData["Dexterite"] .' ('. floor($postData["Dexterite"]/2)-5 .')' ?><br> 
 		Constitution : <?php echo $postData["Constitution"] .' ('. floor($postData["Constitution"]/2)-5 .')' ?><br> 
 		Intelligence : <?php echo $postData["Intelligence"] .' ('. floor($postData["Intelligence"]/2)-5 .')' ?><br> 
 		Sagesse : <?php echo $postData["Sagesse"] .' ('. floor($postData["Sagesse"]/2)-5 .')' ?><br> 
 		Charisme : <?php echo $postData["Charisme"] .' ('. floor($postData["Charisme"]/2)-5 .')' ?><br> 
+		
+		BBA : <?php echo $postData["BBA"] ?> <br>
 		
 		<?php $CA=10+$postData["Armure"] ?> 
 		 <?php echo "CA ", $CA,", contact ", $CA-$postData["Contact"], ', pris au dépourvu ', $CA-$postData["Esquive"]-max(floor($postData["Dexterite"]/2)-5,0),' (',$postData["Description_bonus_armure"],')<br>'  ?>
@@ -359,6 +469,12 @@ catch (Exception $e)
 		<?php echo "Ref : ", $postData["Bonus_Reflexe"]+floor($postData["Dexterite"]/2)-5,"<br>"?>
 		<?php echo "Vig : ", $postData["Bonus_Vigueur"]+floor($postData["Constitution"]/2)-5,"<br>"?>
 		<?php echo "Vol : ", $postData["Bonus_Volonte"]+floor($postData["Sagesse"]/2)-5,"<br>"?>
+		
+		<?php echo 'RD :  ',$postData["RD_valeur"],'/',$postData["RD"],'<br>' ?>
+		
+		<?php echo 'Immunité : ',$postData["Immunite"],'<br>' ?>
+		<?php echo 'Résistance  : ',$postData["Resistance"],'<br>' ?>
+		<?php echo 'RM  : ',$postData["RM"],'<br>' ?>
 
 		Dons : <?php echo $postData["Dons"] ?><br>
 		Langues : <?php echo $postData["Langues"] ?><br>
