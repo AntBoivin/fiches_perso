@@ -29,7 +29,17 @@ $fichescomp = $fichescompStatement->fetchAll();
 $fiche_actuelle_comp=$fichescomp[$id];
 //print_r($fiche_actuelle_comp);
 
+$sqlQuerypouv = 'SELECT * FROM `pouvoirs magiques`';
+$fichespouvStatement = $mysqlClient->prepare($sqlQuerypouv);
+$fichespouvStatement->execute();
+$fichespouv = $fichespouvStatement->fetchAll();
+$fiche_actuelle_pouv=$fichespouv[$id];
 
+$sqlQuerysorts = 'SELECT * FROM `sorts`';
+$fichessortsStatement = $mysqlClient->prepare($sqlQuerysorts);
+$fichessortsStatement->execute();
+$fichessorts = $fichessortsStatement->fetchAll();
+$fiche_actuelle_sorts=$fichessorts[$id];
 
 
 // echo $fiche_actuelle["Alignement"];
@@ -102,6 +112,44 @@ $fiche_actuelle_comp=$fichescomp[$id];
 		<br>
 		<!--<label for="DV">DV : <input type="number" name="dés de vie" id="DV"><br>-->
 		
+		
+		
+		<?php echo '<label for="Sens">Sens : <input type="texte" name="Sens" id="Sens" value=',$fiche_actuelle["Sens"],'><br> '?>
+		<?php echo '<label for="Aura">Aura : <input type="texte" name="Aura" id="Aura" value=',$fiche_actuelle["Aura"],'><br> '?>
+		
+		<?php echo '<label for="Concentration_pv">Concentration : <input type="number" name="Concentration_pv" id="Concentration_pv" value=',$fiche_actuelle_pouv["Concentration_pv"],'><br> '?>
+		<?php echo '<label for="NLS">NLS : <input type="number" name="NLS" id="NLS" value=',$fiche_actuelle_pouv["NLS"],'><br> '?>
+		<?php echo '<label for="Constant">Constant : <input type="texte" name="Constant" id="Constant" value=',$fiche_actuelle_pouv["Constant"],'><br> '?>
+		<?php echo '<label for="A volonte">A volonté : <input type="texte" name="A volonte" id="A volonte" value=',$fiche_actuelle_pouv["A_volonte"],'><br> '?>
+		<?php echo '<label for="3_jour">3/jour : <input type="texte" name="3_jour" id="3_jour" value=',$fiche_actuelle_pouv["3_jour"],'><br> '?>
+		<?php echo '<label for="1_jour">1/jour : <input type="texte" name="1_jour" id="1_jour" value=',$fiche_actuelle_pouv["1_jour"],'><br> '?>
+		<?php echo '<label for="1_mois">1/mois : <input type="texte" name="1_mois" id="1_mois" value=',$fiche_actuelle_pouv["1_mois"],'><br> '?>
+		<?php echo '<label for="1_an">1/an : <input type="texte" name="1_an" id="1_an" value=',$fiche_actuelle_pouv["1_an"],'><br> '?>
+		
+		
+		<?php echo '<label for="Classe">Constant : <input type="texte" name="Classe" id="Classe" value=',$fiche_actuelle_sorts["Classe"],'><br> '?>
+		<?php echo '<label for="Concentration">Concentration : <input type="number" name="Concentration" id="Concentration" value=',$fiche_actuelle_sorts["Concentration"],'><br> '?>
+		<?php echo '<label for="NLS_sorts">NLS : <input type="number" name="NLS_sorts" id="NLS_sorts" value=',$fiche_actuelle_sorts["NLS_sorts"],'><br> '?>
+		
+		<?php echo '<label for="Niveau_0">Niveau 0 : <input type="texte" name="Niveau_0" id="Niveau_0" value=',$fiche_actuelle_sorts["Niveau_0"],'><br> '?>
+		<?php echo '<label for="Niveau_1">Niveau 1 : <input type="texte" name="Niveau_1" id="Niveau_1" value=',$fiche_actuelle_sorts["Niveau_1"],'><br> '?>
+		<?php echo '<label for="Niveau_2">Niveau 2 : <input type="texte" name="Niveau_2" id="Niveau_2" value=',$fiche_actuelle_sorts["Niveau_2"],'><br> '?>
+		<?php echo '<label for="Niveau 3">Niveau 3 : <input type="texte" name="Niveau_3" id="Niveau_3" value=',$fiche_actuelle_sorts["Niveau_3"],'><br> '?>
+		<?php echo '<label for="Niveau_4">Niveau 4 : <input type="texte" name="Niveau_4" id="Niveau_4" value=',$fiche_actuelle_sorts["Niveau_4"],'><br> '?>
+		<?php echo '<label for="Niveau_5">Niveau 5 : <input type="texte" name="Niveau_5" id="Niveau_5" value=',$fiche_actuelle_sorts["Niveau_5"],'><br> '?>
+		<?php echo '<label for="Niveau_6">Niveau 6 : <input type="texte" name="Niveau_6" id="Niveau_6" value=',$fiche_actuelle_sorts["Niveau_6"],'><br> '?>
+		<?php echo '<label for="Niveau_7">Niveau 7 : <input type="texte" name="Niveau_7" id="Niveau_7" value=',$fiche_actuelle_sorts["Niveau_7"],'><br> '?>
+		<?php echo '<label for="Niveau_8">Niveau 8 : <input type="texte" name="Niveau_8" id="Niveau_8" value=',$fiche_actuelle_sorts["Niveau_8"],'><br> '?>
+		<?php echo '<label for="Niveau_9">Niveau 9 : <input type="texte" name="Niveau_9" id="Niveau_9" value=',$fiche_actuelle_sorts["Niveau_9"],'><br> '?>
+		
+		<?php echo '<label for="VD">VD  : <input type="number" name="VD" id="VD" value=',$fiche_actuelle["VD"],'><br>' ?>
+		<?php echo '<label for="distance_vol">Vol : <input type="number" name="distance_vol" id="distance_vol" value=',$fiche_actuelle["distance_vol"],'><br>' ?>
+		<?php echo '<label for="qualite_vol">Qualité de vol  : <input type="text" name="qualite_vol" id="qualite_vol" value=',$fiche_actuelle["qualite_vol"],'><br>' ?>
+		<?php echo '<label for="cac">Corps-à-corps  : <input type="text" name="cac" id="cac" value=',$fiche_actuelle["cac"],'><br>' ?>
+		<?php echo '<label for="Espace">Espace  : <input type="number" name="Espace" id="Espace" value=',$fiche_actuelle["Espace"],'><br>' ?>
+		<?php echo '<label for="Allonge">Allonge  : <input type="number" name="Allonge" id="Allonge" value=',$fiche_actuelle["Allonge"],'><br>' ?>
+		<?php echo '<label for="Attaques_spe">Attaques spéciales  : <input type="text" name="Attaques_spe" id="Attaques_spe" value=',$fiche_actuelle["Attaques_spe"],'><br>' ?>
+		
 		<?php echo '<label for="For">Force : <input type="number" name="Force" id="For" value=',$fiche_actuelle["Force"],'><br> '?>
 		<?php echo '<label for="Dex">Dextérité : <input type="number" name="Dexterite" id="Dex" value=',$fiche_actuelle["Dexterite"],'><br> '?>
 		<?php echo '<label for="Cons">Constitution : <input type="number" name="Constitution" id="Cons" value=',$fiche_actuelle["Constitution"],'><br> '?>
@@ -109,6 +157,8 @@ $fiche_actuelle_comp=$fichescomp[$id];
 		<?php echo '<label for="Int">Intelligence : <input type="number" name="Intelligence" id="Int" value=',$fiche_actuelle["Intelligence"],'><br> '?>
 		<?php echo '<label for="Sag">Sagesse : <input type="number" name="Sagesse" id="Sag" value=',$fiche_actuelle["Sagesse"],'><br> '?>
 		<?php echo '<label for="Cha">Charisme : <input type="number" name="Charisme" id="Cha" value=',$fiche_actuelle["Charisme"],'><br> '?>
+		<?php echo '<label for="BBA">BBA : <input type="number" name="BBA" id="BBA" value=',$fiche_actuelle["BBA"],'><br> '?>
+		
 		<?php echo '<label for="Armure">Armure : <input type="number" name="Armure" id="Armure", value=',$fiche_actuelle["Armure"],'><br> '?>
 		<?php echo '<label for="Contact">dont Armure+Bouclier+Armure naturelle  : <input type="number" name="Contact" id="Contact" value=',$fiche_actuelle["Contact"],'><br>'   ?>
 		<?php echo '<label for="Esquive">dont Esquive  : <input type="number" name="Esquive" id="Esquive" value=',$fiche_actuelle["Esquive"],'><br>' ?>
@@ -118,6 +168,12 @@ $fiche_actuelle_comp=$fichescomp[$id];
 		<?php echo '<label for="Bonus_Reflexe">Bonus Réflexe : <input type="number" name="Bonus_Reflexe" id="Bonus_Reflexe" value=',$fiche_actuelle["Bonus_Reflexe"],'><br>' ?>
 		<?php echo '<label for="Bonus_Vigueur">Bonus Vigueur : <input type="number" name="Bonus_Vigueur" id="Bonus_Vigueur" value=',$fiche_actuelle["Bonus_Vigueur"],'><br>' ?>
 		<?php echo '<label for="Bonus_Volonte">Bonus Volonte : <input type="number" name="Bonus_Volonte" id="Bonus_Volonte" value=',$fiche_actuelle["Bonus_Volonte"],'><br>' ?>
+		
+		<?php echo '<label for="RD_valeur">RD valeur  : <input type="number" name="RD_valeur" id="RD_valeur" value=',$fiche_actuelle["RD_valeur"],'><br>' ?>
+		<?php echo '<label for="RD">RD  : <input type="text" name="RD" id="RD" value=',$fiche_actuelle["RD"],'><br>' ?>
+		<?php echo '<label for="Immunite">Immunité : <input type="text" name="Immunite" id="Immunite" value=',$fiche_actuelle["Immunite"],'><br>' ?>
+		<?php echo '<label for="Resistance">Résistance  : <input type="text" name="Resistance" id="Resistance" value=',$fiche_actuelle["Resistance"],'><br>' ?>
+		<?php echo '<label for="RM">RM  : <input type="number" name="RM" id="RM" value=',$fiche_actuelle["RM"],'><br>' ?>
 
 		<?php echo '<label for="Dons">Dons : <input type="text" name="Dons" id="Dons" value=',$fiche_actuelle["Dons"],'><br> '?>
 		<?php echo '<label for="Langues">Langues : <input type="text" name="Langues" id="Langues" value=',$fiche_actuelle["Langues"],'><br> '?>
